@@ -1,0 +1,1 @@
+const BaseUrl = "https://yfytjpxk.lucusvirtual.es/cvc-back/public/";
