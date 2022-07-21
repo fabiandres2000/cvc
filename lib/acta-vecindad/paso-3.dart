@@ -1,6 +1,5 @@
 import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
 import 'package:cvc/acta-vecindad/actas.dart';
-import 'package:cvc/acta-vecindad/firmas-hoja-1.dart';
 import 'package:cvc/acta-vecindad/paso-2.dart';
 import 'package:cvc/components/bouncy.dart';
 import 'package:cvc/http/acta.dart';
@@ -505,7 +504,7 @@ class _PasoTresPageState extends State<PasoTresPage> {
       });
       Navigator.push(
         context,
-        BouncyPageRoute(widget: FirmasPaginaUnoPage(idActa: widget.idActa, idProyecto: widget.idProyecto))
+        BouncyPageRoute(widget: ActasPage(idProyecto: widget.idProyecto))
       );
     }
   }

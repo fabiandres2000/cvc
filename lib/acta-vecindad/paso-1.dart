@@ -8,6 +8,7 @@ import 'package:cvc/http/acta.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 class PasoUnoPage extends StatefulWidget {
   final int idActa;
@@ -64,7 +65,7 @@ class _PasoUnoPageState extends State<PasoUnoPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/img/add_picture.jpg'),
-                Text("Seleccione maximo 5 imagenes", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+                Text("Seleccione mínimo 6 imagenes", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
               ],
             ) : Column(
               children: [
@@ -298,17 +299,26 @@ class _PasoUnoPageState extends State<PasoUnoPage> {
   }
 
   siguiente() async {
-    setState(() {
-      loading = true;
-    });
-    await actaService.registrarPaso1(bases64, widget.idActa);
-    setState(() {
-      loading = false;
-    });
-    Navigator.push(
-      context,
-      BouncyPageRoute(widget: PasoDosPage(idActa: widget.idActa, idProyecto: widget.idProyecto))
-    );
+    if(bases64.length < 6){
+      MotionToast(
+        primaryColor: Colors.red,
+        description: Text("Mínimo debe adjuntar 6 imagenes."),
+        icon: Icons.cancel,
+      ).show(context);
+    }else{
+      setState(() {
+        loading = true;
+      });
+      await actaService.registrarPaso1(bases64, widget.idActa);
+      setState(() {
+        loading = false;
+      });
+      Navigator.push(
+        context,
+        BouncyPageRoute(widget: PasoDosPage(idActa: widget.idActa, idProyecto: widget.idProyecto))
+      );
+    }
+    
     
   }
 

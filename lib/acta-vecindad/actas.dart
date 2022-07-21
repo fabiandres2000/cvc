@@ -1,5 +1,4 @@
 import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
-import 'package:cvc/acta-vecindad/firmas-hoja-1.dart';
 import 'package:cvc/acta-vecindad/paso-1.dart';
 import 'package:cvc/acta-vecindad/paso-2.dart';
 import 'package:cvc/acta-vecindad/paso-3.dart';
@@ -257,7 +256,11 @@ class _ActasPageState extends State<ActasPage> {
                   transform: Matrix4.skewX(-0.3),
                   child: GestureDetector(
                     onTap: () {
-                      completarRegistro(item);
+                      if(item["estado"] != "Cerrado"){
+                        completarRegistro(item);
+                      }else{
+                        showError();
+                      }
                     },
                     child: Container(
                       width: 140,
@@ -266,11 +269,11 @@ class _ActasPageState extends State<ActasPage> {
                       child: Column(
                         children: [
                           Container(
-                            child: Icon(item["paso"] < 5 ? Icons.app_registration : Icons.edit, size: 60, color: Color.fromRGBO(44,52,76, 1)),
+                            child: Icon(item["paso"] < 4 ? Icons.app_registration : item["paso"] >= 4 && item["estado"] == "Cerrado"? Icons.check :Icons.edit, size: 60, color: Color.fromRGBO(44,52,76, 1)),
                           ),
                           SizedBox(height: 5),
                           Center(
-                            child: item["paso"] < 5 ?  Text("Completar registro", style: TextStyle(color: Color.fromRGBO(44,52,76, 1))): Text("Editar acta", style: TextStyle(color: Color.fromRGBO(44,52,76, 1))),
+                            child: item["paso"] < 4 ?  Text("Completar registro", style: TextStyle(color: Color.fromRGBO(44,52,76, 1))): item["paso"] >= 4 && item["estado"] == "Cerrado"? Text("Completado", style: TextStyle(color: Color.fromRGBO(44,52,76, 1))): Text("Editar acta", style: TextStyle(color: Color.fromRGBO(44,52,76, 1))),
                           )
                         ],
                       ),
@@ -281,10 +284,14 @@ class _ActasPageState extends State<ActasPage> {
                   transform: Matrix4.skewX(-0.3),
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.push(
-                        context,
-                        BouncyPageRoute(widget: SeguimientoPage(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
-                      );
+                      if(item["estado"] != "Cerrado"){
+                        Navigator.push(
+                          context,
+                          BouncyPageRoute(widget: SeguimientoPage(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
+                        );
+                      }else{
+                        showError();
+                      }
                     },
                     child: Container(
                       width: 130,
@@ -310,7 +317,7 @@ class _ActasPageState extends State<ActasPage> {
                     onTap: (){
                       Navigator.push(
                         context,
-                        BouncyPageRoute(widget: EstadoSeguimientoPage(idActa: item["id"]))
+                        BouncyPageRoute(widget: EstadoSeguimientoPage(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
                       );
                     },
                     child: Container(
@@ -320,11 +327,11 @@ class _ActasPageState extends State<ActasPage> {
                       child: Column(
                         children: [
                           Container(
-                            child: Icon(Icons.change_circle, size: 60, color: Color.fromRGBO(44,52,76, 1),),
+                            child: Icon(Icons.edit_note, size: 60, color: Color.fromRGBO(44,52,76, 1),),
                           ),
                           SizedBox(height: 5),
                           Center(
-                            child: Text("Cambiar estado", style: TextStyle(color: Color.fromRGBO(44,52,76, 1))),
+                            child: Text("Firmar acta", style: TextStyle(color: Color.fromRGBO(44,52,76, 1))),
                           )
                         ],
                       ) ,
@@ -356,7 +363,7 @@ class _ActasPageState extends State<ActasPage> {
   }
 
   completarRegistro(dynamic item){
-    if(item["paso"] == 1 || item["paso"] == 5){
+    if(item["paso"] == 1 || item["paso"] == 4){
       Navigator.push(
         context,
         BouncyPageRoute(widget: PasoUnoPage(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
@@ -374,11 +381,13 @@ class _ActasPageState extends State<ActasPage> {
         BouncyPageRoute(widget: PasoTresPage(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
       );
     }
-    if(item["paso"] == 4){
-      Navigator.push(
-        context,
-        BouncyPageRoute(widget: FirmasPaginaUnoPage(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
-      );
-    }
+  }
+
+  showError() {
+    MotionToast(
+      primaryColor: Colors.red,
+      description: Text("Esta acta ya ha sido firmada"),
+      icon: Icons.cancel,
+    ).show(context);
   }
 }

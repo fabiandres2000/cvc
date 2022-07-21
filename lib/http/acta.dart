@@ -201,48 +201,4 @@ class ActaHttp {
     return respuesta;
   }
 
-  Future<dynamic> registrarFirmas(int idActa, String firmaRUS, String firmaCO, String firmaRI, String firmaTE, String nombreUS, String nombreUS2, String nombreUS3, String nombreUS4) async {
-    
-    dynamic respuesta;
-    final response = await http.post(
-      Uri.parse(BaseUrl + "registro-firmas?id="+idActa.toString()),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: convert.jsonEncode(<String, dynamic>{
-        'firmaRUS': firmaRUS,
-        'firmaCO': firmaCO,
-        'firmaRI': firmaRI,
-        'firmaTE': firmaTE,
-        'nombreRUS': nombreUS,
-        'nombreCO': nombreUS2,
-        'nombreRI': nombreUS3,
-        'nombreTE': nombreUS3,
-      }),
-    );
-
-    if (response.statusCode != 200) {
-      respuesta = null;
-      print(response.body);
-    } else {
-      var json = convert.jsonDecode(response.body);
-      respuesta = json;
-    }
-    return respuesta;
-  }
-
-  Future<dynamic> firmas(String idActa) async {
-    dynamic respuesta;
-    final link = Uri.parse(BaseUrl + "firmas?id="+idActa);
-    final response = await http.get(link);
-
-    if (response.statusCode != 200) {
-      respuesta = null;
-    } else {
-      var json = convert.jsonDecode(response.body);
-      respuesta = json;
-    }
-    return respuesta;
-  }
-
 }

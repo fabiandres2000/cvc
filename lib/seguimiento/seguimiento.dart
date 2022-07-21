@@ -200,7 +200,7 @@ class _SeguimientoPageState extends State<SeguimientoPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset('assets/img/add_picture.jpg'),
-                      Text("Seleccione maximo 5 imagenes", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+                      Text("Seleccione 2 imagenes", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
                     ],
                   ) : Column(
                     children: [
@@ -404,34 +404,42 @@ class _SeguimientoPageState extends State<SeguimientoPage> {
   }
 
   guardarSeguimiento() async {
-    if(tipoSeguimiento != "0" && parteCasa != "0"){
-      setState(() {
-        loading = true;
-      });
-      var res = await seguimientoService.registrarSeguimiento(bases64, widget.idActa, parteCasa, tipoSeguimiento, observaciones.text);
-      setState(() {
-        loading = false;
-      });
-      if(res == null){
-        MotionToast(
-          primaryColor: Colors.red,
-          description: Text("Ocurrio un error, intente nuevamente."),
-          icon: Icons.cancel,
-        ).show(context);
-      }else{
-        MotionToast(
-          primaryColor: Colors.green,
-          description: Text("Seguimiento registrado correctamente."),
-          icon: Icons.check,
-        ).show(context);
-        limpiarCampos();
-      }
-    }else{
+    if (bases64.length != 2) {
       MotionToast(
         primaryColor: Colors.red,
-        description: Text("Todos los campos son obligatorios"),
+        description: Text("Debe seleccionar 2 imagenes"),
         icon: Icons.cancel,
       ).show(context);
+    }else{
+      if(tipoSeguimiento != "0" && parteCasa != "0"){
+        setState(() {
+          loading = true;
+        });
+        var res = await seguimientoService.registrarSeguimiento(bases64, widget.idActa, parteCasa, tipoSeguimiento, observaciones.text);
+        setState(() {
+          loading = false;
+        });
+        if(res == null){
+          MotionToast(
+            primaryColor: Colors.red,
+            description: Text("Ocurrio un error, intente nuevamente."),
+            icon: Icons.cancel,
+          ).show(context);
+        }else{
+          MotionToast(
+            primaryColor: Colors.green,
+            description: Text("Seguimiento registrado correctamente."),
+            icon: Icons.check,
+          ).show(context);
+          limpiarCampos();
+        }
+      }else{
+        MotionToast(
+          primaryColor: Colors.red,
+          description: Text("Todos los campos son obligatorios"),
+          icon: Icons.cancel,
+        ).show(context);
+      }
     }
   }
 
