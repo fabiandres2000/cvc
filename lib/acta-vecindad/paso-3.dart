@@ -4,6 +4,7 @@ import 'package:cvc/acta-vecindad/paso-2.dart';
 import 'package:cvc/components/bouncy.dart';
 import 'package:cvc/http/acta.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:motion_toast/motion_toast.dart';
 
@@ -512,6 +513,10 @@ class _PasoTresPageState extends State<PasoTresPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     datosPaso3();
   }
 

@@ -40,6 +40,7 @@ dependencies:
   iconsax: ^0.0.8
   checkbox_grouped: ^1.8.1
   signature: ^5.1.0
+  webview_flutter: ^3.0.4
   
   
   # The following adds the Cupertino Icons font to your application.

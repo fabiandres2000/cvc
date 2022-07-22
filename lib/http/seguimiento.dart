@@ -90,7 +90,7 @@ class SeguimientoHttp {
         'nombreRUS': nombreUS,
         'nombreCO': nombreUS2,
         'nombreRI': nombreUS3,
-        'nombreTE': nombreUS3,
+        'nombreTE': nombreUS4,
         'tipo_seguimiento': tipo
       }),
     );

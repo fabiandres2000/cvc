@@ -200,7 +200,7 @@ class _SeguimientoPageState extends State<SeguimientoPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset('assets/img/add_picture.jpg'),
-                      Text("Seleccione 2 imagenes", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+                      Text("Seleccione 4 imagenes", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
                     ],
                   ) : Column(
                     children: [
@@ -368,7 +368,9 @@ class _SeguimientoPageState extends State<SeguimientoPage> {
 
    void selectImages() async {
     List<XFile> imageFileList = [];
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
+      imageQuality: 60
+    );
     
     if (selectedImages!.isNotEmpty) {
       imageFileList.addAll(selectedImages);
@@ -386,7 +388,10 @@ class _SeguimientoPageState extends State<SeguimientoPage> {
   }
 
   _openCamera() async {
-    final XFile? picture = await imagePicker.pickImage(source: ImageSource.camera);
+    final XFile? picture = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 60
+    );
     final bytes = File(picture!.path).readAsBytesSync();
     String img64 = base64Encode(bytes);
     bases64.add(img64);
@@ -404,10 +409,10 @@ class _SeguimientoPageState extends State<SeguimientoPage> {
   }
 
   guardarSeguimiento() async {
-    if (bases64.length != 2) {
+    if (bases64.length != 4) {
       MotionToast(
         primaryColor: Colors.red,
-        description: Text("Debe seleccionar 2 imagenes"),
+        description: Text("Debe seleccionar 4 imagenes"),
         icon: Icons.cancel,
       ).show(context);
     }else{

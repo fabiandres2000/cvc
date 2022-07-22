@@ -6,6 +6,7 @@ import 'package:cvc/acta-vecindad/paso-2.dart';
 import 'package:cvc/components/bouncy.dart';
 import 'package:cvc/http/acta.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -236,6 +237,10 @@ class _PasoUnoPageState extends State<PasoUnoPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     listarRegistros();
   }
 
@@ -266,7 +271,9 @@ class _PasoUnoPageState extends State<PasoUnoPage> {
 
   void selectImages() async {
     List<XFile> imageFileList = [];
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
+      imageQuality: 60
+    );
     
     if (selectedImages!.isNotEmpty) {
       imageFileList.addAll(selectedImages);
@@ -284,7 +291,10 @@ class _PasoUnoPageState extends State<PasoUnoPage> {
   }
 
   _openCamera() async {
-    final XFile? picture = await imagePicker.pickImage(source: ImageSource.camera);
+    final XFile? picture = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 60
+    );
     final bytes = File(picture!.path).readAsBytesSync();
     String img64 = base64Encode(bytes);
     bases64.add(img64);

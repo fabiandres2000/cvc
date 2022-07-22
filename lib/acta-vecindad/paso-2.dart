@@ -6,6 +6,7 @@ import 'package:cvc/components/bouncy.dart';
 import 'package:cvc/http/acta.dart';
 import 'package:cvc/http/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -940,6 +941,10 @@ class _PasoDosPageState extends State<PasoDosPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     listarDepartamentos();
   }
 

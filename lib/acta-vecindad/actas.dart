@@ -3,12 +3,14 @@ import 'package:cvc/acta-vecindad/paso-1.dart';
 import 'package:cvc/acta-vecindad/paso-2.dart';
 import 'package:cvc/acta-vecindad/paso-3.dart';
 import 'package:cvc/components/bouncy.dart';
+import 'package:cvc/html/visor-html.dart';
 import 'package:cvc/http/acta.dart';
 import 'package:cvc/http/constant.dart';
 import 'package:cvc/principal/principal.dart';
 import 'package:cvc/seguimiento/estado-seguimiento.dart';
 import 'package:cvc/seguimiento/seguimiento.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:http/http.dart' as http;
@@ -102,6 +104,10 @@ class _ActasPageState extends State<ActasPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     listarActas();
   }
 
@@ -256,11 +262,7 @@ class _ActasPageState extends State<ActasPage> {
                   transform: Matrix4.skewX(-0.3),
                   child: GestureDetector(
                     onTap: () {
-                      if(item["estado"] != "Cerrado"){
-                        completarRegistro(item);
-                      }else{
-                        showError();
-                      }
+                      completarRegistro(item);                  
                     },
                     child: Container(
                       width: 140,
@@ -379,6 +381,13 @@ class _ActasPageState extends State<ActasPage> {
       Navigator.push(
         context,
         BouncyPageRoute(widget: PasoTresPage(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
+      );
+    }
+
+    if(item["paso"] == 5){
+      Navigator.push(
+        context,
+        BouncyPageRoute(widget: WebViewExample(idActa: item["id"], idProyecto: int.parse(item["id_proyecto"])))
       );
     }
   }

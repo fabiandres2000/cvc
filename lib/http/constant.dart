@@ -1,1 +1,1 @@
-const BaseUrl = "https://yfytjpxk.lucusvirtual.es/cvc-back/public/";
+const BaseUrl = "https://cvc.lecsidesarrollos.com.co/cvc-back/public/";
