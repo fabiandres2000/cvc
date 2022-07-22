@@ -245,14 +245,16 @@ class _ActasPageState extends State<ActasPage> {
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 25),
+                  padding: EdgeInsets.only(top: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text('Resp: ${item["datos"]["nombreReponsable"]}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 7),
                       Text('Fecha :${item["fecha"]}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10),
+                      SizedBox(height: 7),
                       Text('Estado : ${item["estado"]}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10),
+                      SizedBox(height: 7),
                       Text('Paso de registro : ${item["paso"]}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
                     ],
                   ) ,
